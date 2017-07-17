@@ -4,7 +4,8 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
-import com.vaadin.server.Sizeable.Unit;
+import com.vaadin.navigator.Navigator;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Alignment;
@@ -52,10 +53,21 @@ public class ExampleUI extends UI {
 		mainContent.addComponents(mainMenu, viewArea);
 		mainContent.setExpandRatio(viewArea, 1);
 
-		mainMenu.addComponents(new Button("Customers"), new Button("Invoices"));
 		mainMenu.setMargin(false);
 
+		Navigator navigator = new Navigator(this, viewArea);
+		navigator.addView("", HomeView.class);
+		navigator.addView("customers", CustomersView.class);
+		navigator.addViewChangeListener(e -> onViewChange(e));
+
+		mainMenu.addComponents(new Button("Home", e -> navigator.navigateTo("")),
+				new Button("Customers", e -> navigator.navigateTo("customers")));
+
 		setContent(layout);
+	}
+
+	private boolean onViewChange(ViewChangeEvent e) {
+		return true;
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "VaadinServlet", asyncSupported = true)
