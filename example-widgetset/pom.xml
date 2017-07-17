@@ -14,8 +14,14 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.packt.example</groupId>
+			<artifactId>example-frontend</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-client</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.vaadin</groupId>
