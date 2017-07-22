@@ -7,6 +7,7 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Viewport;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Responsive;
@@ -26,26 +27,20 @@ import com.vaadin.ui.themes.ValoTheme;
 @Viewport("width=device-width,initial-scale=1.0,user-scalable=no")
 public class ExampleUI extends UI {
 
+	private ResponsiveMainMenu mainMenu;
+
+	public ExampleUI() {
+		mainMenu = new ResponsiveMainMenu();
+	}
+
 	@Override
 	protected void init(VaadinRequest request) {
+		Responsive.makeResponsive(this);
+		addStyleName(ValoTheme.UI_WITH_MENU);
+
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSizeFull();
-		layout.addStyleName("main-layout");
-		
-		Responsive.makeResponsive(layout);
-
-		HorizontalLayout header = new HorizontalLayout();
-		header.setWidth(100, Unit.PERCENTAGE);
-
-		layout.addComponent(header);
-
-		Label logoPlaceholder = new Label("Logo");
-		Button logout = new Button("Logout");
-		logout.setStyleName(ValoTheme.BUTTON_LINK);
-
-		header.addComponents(logoPlaceholder, logout);
-		header.setExpandRatio(logout, 1);
-		header.setComponentAlignment(logout, Alignment.TOP_RIGHT);
+		layout.setMargin(false);
 
 		HorizontalLayout mainContent = new HorizontalLayout();
 		mainContent.setSizeFull();
@@ -53,30 +48,35 @@ public class ExampleUI extends UI {
 		layout.addComponent(mainContent);
 		layout.setExpandRatio(mainContent, 1);
 
-		VerticalLayout mainMenu = new VerticalLayout();
-		mainMenu.setWidth(200, Unit.PIXELS);
+		Button logout = new Button("Logout", VaadinIcons.SIGN_OUT);
+		logout.addStyleName("sign-out-header");
+
+		VerticalLayout viewAreaVertical = new VerticalLayout();
+		viewAreaVertical.addComponent(logout);
+		viewAreaVertical.setComponentAlignment(logout, Alignment.TOP_RIGHT);
 
 		Panel viewArea = new Panel();
 		viewArea.setSizeFull();
 		viewArea.setStyleName(ValoTheme.PANEL_BORDERLESS);
 
-		mainContent.addComponents(mainMenu, viewArea);
-		mainContent.setExpandRatio(viewArea, 1);
-
-		mainMenu.setMargin(false);
+		viewAreaVertical.addComponent(viewArea);
+		viewAreaVertical.setExpandRatio(viewArea, 1);
+		mainContent.addComponents(mainMenu, viewAreaVertical);
+		mainContent.setExpandRatio(viewAreaVertical, 1);
 
 		Navigator navigator = new Navigator(this, viewArea);
 		navigator.addView("", HomeView.class);
 		navigator.addView("customers", CustomersView.class);
 		navigator.addViewChangeListener(e -> onViewChange(e));
 
-		mainMenu.addComponents(new Button("Home", e -> navigator.navigateTo("")),
-				new Button("Customers", e -> navigator.navigateTo("customers")));
+		mainMenu.addMenuItem("Home", VaadinIcons.HOME, "");
+		mainMenu.addMenuItem("Customers", VaadinIcons.USERS, "customers");
 
 		setContent(layout);
 	}
 
 	private boolean onViewChange(ViewChangeEvent e) {
+		mainMenu.closeMenu();
 		return true;
 	}
 
