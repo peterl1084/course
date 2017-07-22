@@ -20,7 +20,6 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 @Widgetset("com.packt.example.widgetset.ExampleWidgetset")
-@Theme("example")
 public class ExampleUI extends UI {
 
 	@Override
