@@ -2,6 +2,7 @@ package com.packt.example.frontend;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
@@ -19,6 +20,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 @Widgetset("com.packt.example.widgetset.ExampleWidgetset")
+@Theme("example")
 public class ExampleUI extends UI {
 
 	@Override

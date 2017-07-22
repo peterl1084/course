@@ -1,0 +1,6 @@
+@import "../valo/valo.scss";
+@import "variables.scss";
+
+@mixin example {
+  @include valo;
+}
