@@ -3,4 +3,16 @@
 
 @mixin example {
   @include valo;
+
+  .main-layout[width-range~="0-300px"] {
+    background-color: rgb(255,0,0);
+  }
+
+  .main-layout[width-range~="301px-800px"] {
+    background-color: rgb(0,255,0);
+  }
+
+  .main-layout[width-range~="801px-"] {
+    background-color: rgb(0,0,255);
+  }
 }

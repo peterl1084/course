@@ -15,6 +15,16 @@
 			<artifactId>vaadin-client</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-themes</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-sass-compiler</artifactId>
+			<version>0.9.13</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -34,7 +44,6 @@
 						<goals>
 							<goal>resources</goal>
 							<goal>compile</goal>
-							<goal>compile-theme</goal>
 						</goals>
 					</execution>
 				</executions>

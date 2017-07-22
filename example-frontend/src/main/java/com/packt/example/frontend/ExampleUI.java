@@ -4,10 +4,12 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Viewport;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Alignment;
@@ -20,12 +22,17 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 @Widgetset("com.packt.example.widgetset.ExampleWidgetset")
+@Theme("example")
+@Viewport("width=device-width,initial-scale=1.0,user-scalable=no")
 public class ExampleUI extends UI {
 
 	@Override
 	protected void init(VaadinRequest request) {
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSizeFull();
+		layout.addStyleName("main-layout");
+		
+		Responsive.makeResponsive(layout);
 
 		HorizontalLayout header = new HorizontalLayout();
 		header.setWidth(100, Unit.PERCENTAGE);
