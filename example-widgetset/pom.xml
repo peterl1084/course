@@ -34,7 +34,6 @@
 						<goals>
 							<goal>resources</goal>
 							<goal>compile</goal>
-							<goal>compile-theme</goal>
 						</goals>
 					</execution>
 				</executions>
