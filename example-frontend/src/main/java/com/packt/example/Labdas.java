@@ -1,11 +1,15 @@
 package com.packt.example;
 
 import java.util.Arrays;
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 public class Labdas {
 
 	public static void main(String... args) {
+		Predicate<Person> ageCheck = p -> p.getAge() > 18;
+		BiPredicate<Person, Integer> paramAgeCheck = (p, a) -> p.getAge() >= a;
+		
 		printPersons(p -> p.getAge() >= 18, p("a", 17), p("b", 21));
 	}
 
