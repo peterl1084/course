@@ -64,6 +64,7 @@
 		<module>example-service-client</module>
 		<module>example-backend</module>
 		<module>example-frontend</module>
+		<module>example-widgetset</module>
 		<module>example-deploy</module>
 	</modules>
 
