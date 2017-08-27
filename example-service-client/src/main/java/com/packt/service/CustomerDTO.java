@@ -6,6 +6,8 @@ public class CustomerDTO {
 	private String firstName;
 	private String lastName;
 
+	private Integer yearOfBirth;
+
 	private LocalDate birthDate;
 
 	public String getFirstName() {
@@ -31,7 +33,15 @@ public class CustomerDTO {
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
-	
+
+	public Integer getYearOfBirth() {
+		return yearOfBirth;
+	}
+
+	public void setYearOfBirth(Integer yearOfBirth) {
+		this.yearOfBirth = yearOfBirth;
+	}
+
 	@Override
 	public String toString() {
 		return getFirstName() + " " + getLastName() + " " + getBirthDate();
