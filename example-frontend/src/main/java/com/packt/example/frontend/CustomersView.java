@@ -2,12 +2,18 @@ package com.packt.example.frontend;
 
 import com.packt.service.CustomerDTO;
 import com.vaadin.data.Binder;
+import com.vaadin.data.BinderValidationStatus;
+import com.vaadin.data.BindingValidationStatus;
 import com.vaadin.data.Converter;
 import com.vaadin.data.Result;
 import com.vaadin.data.ValueContext;
+import com.vaadin.data.converter.StringToBigDecimalConverter;
+import com.vaadin.data.validator.IntegerRangeValidator;
 import com.vaadin.navigator.View;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 
 public class CustomersView extends FormLayout implements View {
@@ -38,30 +44,26 @@ public class CustomersView extends FormLayout implements View {
 				CustomerDTO::setFirstName);
 		binder.forField(lastName).bind(CustomerDTO::getLastName,
 				CustomerDTO::setLastName);
-		binder.forField(birthDate).bind(CustomerDTO::getBirthDate,
-				CustomerDTO::setBirthDate);
 
 		binder.forField(yearOfBirth)
 				.withConverter(Integer::valueOf, String::valueOf)
+				.withValidator(new IntegerRangeValidator("error", 2000, 2010))
+				.withValidationStatusHandler(
+						status -> onValidationStatusChange(status))
 				.bind(CustomerDTO::getYearOfBirth, CustomerDTO::setYearOfBirth);
+
+		binder.forField(birthDate).bind(CustomerDTO::getBirthDate,
+				CustomerDTO::setBirthDate);
 
 		binder.setBean(customerDto);
 	}
 
-	private static class IntegerToStringConverter
-			implements Converter<String, Integer> {
-
-		@Override
-		public Result<Integer> convertToModel(String value,
-				ValueContext context) {
-			return Result.of(() -> Integer.valueOf(value),
-					Exception::getMessage);
-		}
-
-		@Override
-		public String convertToPresentation(Integer value,
-				ValueContext context) {
-			return String.valueOf(value);
-		}
+	private void onValidationStatusChange(BindingValidationStatus<?> status) {
+		status.getResult().ifPresent(result -> {
+			if (result.isError()) {
+				Notification.show(
+						"Error in year of birth: " + result.getErrorMessage());
+			}
+		});
 	}
 }
