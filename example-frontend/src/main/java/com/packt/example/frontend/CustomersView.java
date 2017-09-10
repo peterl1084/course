@@ -2,12 +2,7 @@ package com.packt.example.frontend;
 
 import com.packt.service.CustomerDTO;
 import com.vaadin.data.Binder;
-import com.vaadin.data.BinderValidationStatus;
 import com.vaadin.data.BindingValidationStatus;
-import com.vaadin.data.Converter;
-import com.vaadin.data.Result;
-import com.vaadin.data.ValueContext;
-import com.vaadin.data.converter.StringToBigDecimalConverter;
 import com.vaadin.data.validator.IntegerRangeValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.Button;
@@ -34,8 +29,6 @@ public class CustomersView extends FormLayout implements View {
 		birthDate = new DateField("Birth date");
 
 		customerDto = new CustomerDTO();
-		customerDto.setFirstName("Peter");
-		customerDto.setLastName("Lehto");
 		addComponents(firstName, lastName, yearOfBirth, birthDate);
 
 		binder = new Binder<>();
@@ -55,7 +48,14 @@ public class CustomersView extends FormLayout implements View {
 		binder.forField(birthDate).bind(CustomerDTO::getBirthDate,
 				CustomerDTO::setBirthDate);
 
-		binder.setBean(customerDto);
+		
+//		binder.setBean(customerDto);
+		Button save = new Button("Save", e -> binder.writeBeanIfValid(customerDto));
+		binder.withValidator(customer -> {
+			return false;
+		}, "error");
+		
+		addComponent(save);
 	}
 
 	private void onValidationStatusChange(BindingValidationStatus<?> status) {
